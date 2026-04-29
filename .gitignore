@@ -1,0 +1,27 @@
+# Environnement virtuel
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+
+# Données et Modèles (Gérés par DVC ou locaux)
+data/*.csv
+!data/creditcard.csv.dvc
+models/*.pkl
+
+
+# Monitoring & Logs
+monitoring/explanations/*.png
+monitoring/*.html
+mlruns/
+pipeline.log
+.pytest_cache/
+.evidently/
+
+# OS
+.DS_Store
+Thumbs.db
+
+
+

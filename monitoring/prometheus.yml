@@ -1,0 +1,8 @@
+# Prometheus configuration to monitor the Fraud Detection API service
+global:
+  scrape_interval: 5s # Frequency at which metrics are collected
+
+scrape_configs:
+  - job_name: "fraud-api-service"
+    static_configs:
+      - targets: ["api:8000"] # "api" refers to the service name defined in docker-compose

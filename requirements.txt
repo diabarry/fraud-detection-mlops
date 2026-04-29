@@ -1,0 +1,25 @@
+# Core ML
+numpy
+pandas
+scikit-learn
+xgboost
+shap
+
+# MLOps & Data
+dvc
+dvc-s3
+mlflow
+evidently
+great_expectations
+joblib
+
+# API & Server
+fastapi
+uvicorn
+prometheus_client
+pydantic
+python-dotenv
+
+# Utils
+pyyaml
+matplotlib
