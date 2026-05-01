@@ -23,7 +23,7 @@ graph LR
     end
 
     %% Section Serving
-    subgraph Serving [INFRASTRUCTURE MLOPS - Online | par Diabarry]
+    subgraph Serving [INFRASTRUCTURE MLOPS - Online par Diabarry]
         API[FastAPI Predictor]
         PROM[(Prometheus)]
         EVI[Evidently AI]
