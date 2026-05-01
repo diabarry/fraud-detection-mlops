@@ -5,7 +5,6 @@ This project is a production-ready Fraud Detection System leveraging modern MLOp
 ## Architecture Overview
 The system is built on a modular architecture to ensure scalability and maintainability.
 
-
 ```mermaid
 graph LR
     %% Section Entraînement
@@ -24,7 +23,7 @@ graph LR
     end
 
     %% Section Serving
-    subgraph Serving [INFRASTRUCTURE - Online]
+    subgraph Serving [INFRASTRUCTURE MLOPS - Online | par Diabarry]
         API[FastAPI Predictor]
         PROM[(Prometheus)]
         EVI[Evidently AI]
@@ -36,7 +35,7 @@ graph LR
     end
 
     %% Connexions logiques
-    MLF -.->|Load Model| API
+    MLF[MLFlow] -.->|Load Model| API
     Docker -->|Deploy| API
     
     %% Utilisateur
@@ -48,7 +47,7 @@ graph LR
 ### Real-time Monitoring (Grafana)
 The Grafana dashboard visualizes system health, prediction latency, and fraud detection rates by scraping metrics from the Prometheus endpoint.
 
-![Grafana Dashboard](img/grafana_dashboard.png)
+![Grafana Dashboard](img/grafana_dashboard.jpg)
 
 
 ---
