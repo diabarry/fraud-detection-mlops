@@ -10,6 +10,7 @@ __pycache__/
 data/*.csv
 !data/creditcard.csv.dvc
 models/*.pkl
+.dvc/config.local
 
 # Monitoring & Logs
 monitoring/explanations/*.png
@@ -19,6 +20,7 @@ mlruns/
 pipeline.log
 .pytest_cache/
 .evidently/
+.ipynb_checkpoints/
 
 # OS generated files
 .DS_Store
