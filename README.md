@@ -1,11 +1,48 @@
+
 # End-to-End Fraud Detection MLOps Platform
 This project is a production-ready Fraud Detection System leveraging modern MLOps practices. It covers the entire lifecycle: from versioned data ingestion and automated training to containerized deployment and real-time monitoring.
 
 ## Architecture Overview
 The system is built on a modular architecture to ensure scalability and maintainability.
 
-![Architecture](img/architecture.png)
 
+```mermaid
+graph LR
+    %% Section Entraînement
+    subgraph Training [TRAINING PIPELINE - Offline]
+        DVC[(DVC Remote)] -->|Data| GE[Great Expectations]
+        GE --> T[XGBoost Trainer]
+        T --> MLF{MLflow Tracking}
+        T --> SHAP[SHAP Explainer]
+    end
+
+    %% Section Automation
+    subgraph CI_CD [AUTOMATION]
+        direction TB
+        CI[GitHub Actions] -->|Validate| T
+        CI -->|Package| Docker[Docker Hub]
+    end
+
+    %% Section Serving
+    subgraph Serving [INFRASTRUCTURE - Online]
+        API[FastAPI Predictor]
+        PROM[(Prometheus)]
+        EVI[Evidently AI]
+        GRAF[Grafana]
+        
+        API -->|Metrics| PROM
+        API -->|Logs| EVI
+        PROM --> GRAF
+    end
+
+    %% Connexions logiques
+    MLF -.->|Load Model| API
+    Docker -->|Deploy| API
+    
+    %% Utilisateur
+    User((User / Analyst)) -->|Request| API
+    User -.->|View| GRAF
+```
 ## Visual Preview
 
 ### Real-time Monitoring (Grafana)
@@ -58,6 +95,16 @@ Python 3.10+
 
 DVC (configured with your remote storage)
 
+## 📦 Model & Data Versioning (DVC)
+
+This project uses **DVC (Data Version Control)** to manage large files (models and datasets) without bloating the Git repository.
+
+> **Important:** The `models/model.pkl` and `models/scaler.pkl` files are not stored on GitHub. You must pull them from the remote storage before running the application.
+
+### How to retrieve the models:
+ **Ensure DVC is installed**: `pip install dvc`
+
+*"If you don't have access to the DVC remote, you can train the model locally using `python train.py` to regenerate the pickle files."*  
 ###  Installation & Execution
 
 #### 1. Clone the Repository 
@@ -128,7 +175,7 @@ make all
 ```
 
 
-The API will be available at http://localhost:8000
+The API & Swagger will be available at http://localhost:8000/docs
 
 Prometheus will be at http://localhost:9090
 
@@ -139,7 +186,7 @@ To check for Data Drift or Model Performance degradation, you can generate the E
 
 Open and run the monitor.ipynb notebook.
 
-View the generated HTML report in the monitoring/explanations.
+View the generated HTML report in the monitoring/.
 
 ## Monitoring & Quality
 ### Data Validation
@@ -160,7 +207,7 @@ The CI pipeline automatically runs:
 
 ```bash
 pytest tests/
-flake8 src/
+flake8 ./
 ```
 ## Key Contributions in this Project
 Robustness: Implemented a "Circuit Breaker" logic for data validation.
