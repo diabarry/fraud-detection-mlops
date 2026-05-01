@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  # Fraud Detection API
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models:/app/models # Mount local models into the container
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+    networks:
+      - mlops-network
+
+  # Prometheus: Time-series database for metrics
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus # Persistent storage for metrics
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+    networks:
+      - mlops-network
+
+  # Grafana: Data visualization and Dashboards
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana # Persistent storage for dashboards
+    restart: unless-stopped
+    networks:
+      - mlops-network
+
+networks:
+  mlops-network:
+    driver: bridge
+
+volumes:
+  prometheus_data:
+  grafana_data:

@@ -4,40 +4,7 @@ This project is a production-ready Fraud Detection System leveraging modern MLOp
 ## Architecture Overview
 The system is built on a modular architecture to ensure scalability and maintainability.
 
-``` 
-graph TD
-    subgraph "Data & Training Pipeline"
-        DVC[(DVC Remote)] <-->|Versioned Data| GE[Great Expectations<br/><i>Data Validation</i>]
-        GE --> T[Trainer<br/><i>XGBoost</i>]
-        T --> MLF((MLflow<br/><i>Tracking & Artifacts</i>))
-        T --> SHAP[SHAP<br/><i>Global Explanations</i>]
-    end
-
-    subgraph "Docker Stack (Inference & Monitoring)"
-        direction TB
-        API[FastAPI Service<br/><i>Predictor</i>]
-        PROM[Prometheus<br/><i>TSDB Metrics</i>]
-        GRAF[Grafana<br/><i>Dashboards</i>]
-        EVI[Evidently AI<br/><i>Drift Reports</i>]
-    end
-
-    MLF -.->|Load Best Model| API
-    API -- Scrape Metrics --> PROM
-    PROM --> GRAF
-    API -- Prediction Logs --> EVI
-    
-    subgraph "CI/CD (GitHub Actions)"
-        CI[GitHub Actions] -->|Pytest / Lint| T
-        CI -->|Docker Build| API
-    end
-
-    User((User/Analyst)) -->|Request Prediction| API
-    User -->|View Explanations| SHAP
-    User -->|Monitor Performance| GRAF
-     ```
-
-
-
+![Architecture](img/architecture.png)
 
 ## Visual Preview
 
@@ -45,7 +12,7 @@ graph TD
 The Grafana dashboard visualizes system health, prediction latency, and fraud detection rates by scraping metrics from the Prometheus endpoint.
 
 ![Grafana Dashboard](img/grafana_dashboard.png)
-**
+
 
 ---
 
@@ -65,21 +32,21 @@ Our FastAPI service automatically generates interactive documentation. You can t
 
 ##  Tech Stack & Key Features
 
-Core ML: XGBoost for high-performance classification with SMOTE/Scale_pos_weight for class imbalance.
+#### Core ML: XGBoost for high-performance classification with SMOTE/Scale_pos_weight for class imbalance.
 
-Data Governance: DVC for data versioning and Great Expectations for automated data quality unit tests.
+#### Data Governance: DVC for data versioning and Great Expectations for automated data quality unit tests.
 
-Experiment Tracking: MLflow to log parameters, metrics, and model artifacts.
+#### Experiment Tracking: MLflow to log parameters, metrics, and model artifacts.
 
-Inference: FastAPI containerized with Docker, providing high-throughput predictions.
+#### Inference: FastAPI containerized with Docker, providing high-throughput predictions.
 
-Observability: Prometheus for technical metrics and Grafana for real-time visualization.
+#### Observability: Prometheus for technical metrics and Grafana for real-time visualization.
 
-Model Health: Evidently AI for Data Drift and Model Drift detection.
+#### Model Health: Evidently AI for Data Drift and Model Drift detection.
 
-Explainability (XAI): SHAP to provide global and local interpretability (No "Black Box" models).
+#### Explainability (XAI): SHAP to provide global and local interpretability (No "Black Box" models).
 
-CI/CD: GitHub Actions for automated linting, testing, and Docker image builds.
+#### CI/CD: GitHub Actions for automated linting, testing, and Docker image builds.
 
 ## Getting Started
 
@@ -154,6 +121,7 @@ Build and Start everything:
 docker-compose up --build
 ```
 
+
 Or just run the full pipeline (Training to Deployment)
 ```bash
 make all
@@ -200,7 +168,6 @@ Robustness: Implemented a "Circuit Breaker" logic for data validation.
 Transparency: Added a full XAI (Explainable AI) layer.
 
 Automation: 100% containerized environment with automated CI/CD.
-
 
 
 
