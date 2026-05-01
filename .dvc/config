@@ -1,5 +1,6 @@
 [core]
     autostage = true
     remote = myremote
+    hardlink_lock = true
 ['remote "myremote"']
-    url = gdrive://https://drive.google.com/drive/folders/1B3LkPO772IcZh5GUHr-fw6nwBSc_vs1_
+    url = gdrive://1B3LkPO772IcZh5GUHr-fw6nwBSc_vs1_
