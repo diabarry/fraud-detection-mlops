@@ -1,0 +1,4 @@
+## Inform GitHub that these folders are generated and do not count in the stats
+monitoring/** linguist-vendored
+reports/** linguist-vendored
+**/drift_report.html linguist-vendored
