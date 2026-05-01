@@ -1,27 +1,25 @@
-# Environnement virtuel
+# Virtual environment
 .venv/
 venv/
 env/
 __pycache__/
 *.py[cod]
 
-# Données et Modèles (Gérés par DVC ou locaux)
+# Data and Models (Managed by DVC or stored locally)
+.dvc/cache/
 data/*.csv
 !data/creditcard.csv.dvc
 models/*.pkl
 
-
 # Monitoring & Logs
 monitoring/explanations/*.png
 monitoring/*.html
+*.html
 mlruns/
 pipeline.log
 .pytest_cache/
 .evidently/
 
-# OS
+# OS generated files
 .DS_Store
 Thumbs.db
-
-
-
